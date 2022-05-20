@@ -16,6 +16,7 @@ CREATE TABLE mai_user (
     user_login_email VARCHAR(100) DEFAULT NULL,
     user_login_pwd VARCHAR(255) DEFAULT NULL,
     user_qq_uim VARCHAR(50) DEFAULT NULL,
+    user_email_hash CHAR(6) DEFAULT NULL,
     user_create_time DATETIME NOT NULL,
     user_update_time DATETIME NOT NULL,
     user_delete_time INT DEFAULT NULL,
@@ -31,5 +32,5 @@ CREATE TABLE mai_user_role (
 INSERT INTO mai_user_role (role_id, role_name) VALUES
 (1, '系统管理员'),
 (2, '资讯管理员'),
-(3, '店铺审核员'),
+(3, '内容审核员'),
 (4, '普通用户');
