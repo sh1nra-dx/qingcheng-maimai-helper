@@ -19,6 +19,13 @@ use app\exception\ForbiddenException;
 
 class UserData {
 
+    /**
+     *  获取用户列表
+     * 
+     *  @param int $roleId 用户角色ID
+     *  @return array 用户列表数组封装
+     */
+
     public static function getList(int $roleId = 0): array {
         $query = UserModel::alias('user')
             ->leftJoin('user_role', 'user.role_id = user_role.role_id')
@@ -44,6 +51,13 @@ class UserData {
         );
     }
 
+    /**
+     *  获取用户详细信息
+     * 
+     *  @param int $userId 用户ID
+     *  @return array 用户信息数组封装
+     */
+
     public static function getInfo(int $userId): array {
         $user = UserModel::alias('user')
             ->leftJoin('user_role', 'user.role_id = user_role.role_id')
@@ -67,6 +81,13 @@ class UserData {
         );
     }
 
+    /**
+     *  添加用户
+     * 
+     *  @param array $entry 用户添加表单数组
+     *  @return array 用户新增ID数组封装
+     */
+
     public static function add(array $entry): array {
         $role = UserRoleModel::where(array(
             'role_id' => $entry['role_id'],
@@ -87,7 +108,15 @@ class UserData {
         );
     }
 
-    public static function update(int $userId, array $entry): bool {
+    /**
+     *  更新用户信息
+     * 
+     *  @param int $userId 用户ID
+     *  @param array $entry 用户信息更新表单数组
+     *  @return void
+     */
+
+    public static function update(int $userId, array $entry): void {
         $user = UserModel::where(array(
             'user_id' => $userId,
         ))->findOrEmpty();
@@ -105,10 +134,17 @@ class UserData {
         $user->user_login_email = $entry['login_email'];
         $user->user_update_time = date('Y-m-d H:i:s');
         $user->save();
-        return true;
     }
 
-    public static function updatePassword(int $userId, array $entry): bool {
+    /**
+     *  强制更新用户密码
+     * 
+     *  @param int $userId 用户ID
+     *  @param array $entry 用户密码更新表单数组
+     *  @return void
+     */
+
+    public static function updatePassword(int $userId, array $entry): void {
         $user = UserModel::where(array(
             'user_id' => $userId,
         ))->findOrEmpty();
@@ -118,10 +154,16 @@ class UserData {
         $user->user_login_pwd = password_hash($entry['pwd_new'], PASSWORD_DEFAULT);
         $user->user_update_time = date('Y-m-d H:i:s');
         $user->save();
-        return true;
     }
 
-    public static function delete(int $userId): bool {
+    /**
+     *  删除用户
+     * 
+     *  @param int $userId 用户ID
+     *  @return void
+     */
+
+    public static function delete(int $userId): void {
         $user = UserModel::where(array(
             'user_id' => $userId,
         ))->findOrEmpty();
@@ -129,7 +171,6 @@ class UserData {
             throw new NotFoundException('未找到相应的用户条目');
         }
         $user->delete();
-        return true;
     }
 
 }
