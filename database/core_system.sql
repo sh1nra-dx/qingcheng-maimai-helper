@@ -10,8 +10,9 @@ DROP TABLE IF EXISTS mai_bot_whitelist;
 CREATE TABLE mai_bot_whitelist (
     wl_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     wl_group_uim VARCHAR(50) NOT NULL,
-    enable_maidx TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+    enable_maimaidx TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
     enable_queue TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+    enable_laf TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
     wl_create_time DATETIME NOT NULL,
     wl_update_time DATETIME NOT NULL,
     wl_delete_time INT DEFAULT NULL,
