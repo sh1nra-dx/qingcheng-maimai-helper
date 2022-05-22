@@ -95,6 +95,10 @@ class UserData {
         if ($role->isEmpty()) {
             throw new ForbiddenException('请输入正确的用户角色');
         }
+        $email = UserModel::where(array('user_login_email' => $entry['login_email'],))->findOrEmpty();
+        if (!$email->isEmpty()) {
+            throw new ForbiddenException('该邮箱已被其他账号绑定，请更换其他邮箱');
+        }
         $user = new UserModel();
         $user->role_id = $entry['role_id'];
         $user->user_login_email = $entry['login_email'];
@@ -128,6 +132,10 @@ class UserData {
         ))->findOrEmpty();
         if ($role->isEmpty()) {
             throw new ForbiddenException('请输入正确的用户角色');
+        }
+        $email = UserModel::where(array('user_login_email' => $entry['login_email'],))->findOrEmpty();
+        if (!$email->isEmpty()) {
+            throw new ForbiddenException('该邮箱已被其他账号绑定，请更换其他邮箱');
         }
         $user->role_id = $entry['role_id'];
         $user->user_name = $entry['user_name'];

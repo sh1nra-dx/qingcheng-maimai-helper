@@ -19,6 +19,29 @@ use app\exception\ForbiddenException;
 class ProfileData {
 
     /**
+     *  登录检查
+     * 
+     *  @param array $entry 登录表单数组
+     *  @return array 鉴权信息数组封装
+     */
+
+    public static function loginCheck(array $entry): array {
+        $user = UserModel::where(array('user_login_email' => $entry['user_name']))->findOrEmpty();
+        if ($user->isEmpty()) {
+            throw new ForbiddenException('用户未注册或用户名密码不匹配，请重试');
+        }
+        if (!password_verify($entry['password'], $user->user_login_pwd)) {
+            throw new ForbiddenException('用户未注册或用户名密码不匹配，请重试');
+        }
+        return array(
+            'userId' => $user->user_id,
+            'roleId' => $user->role_id,
+            'userName' => $user->user_name,
+            'avatar' => $user->user_avatar,
+        );
+    }
+
+    /**
      *  获取个人资料
      * 
      *  @param int $userId 用户ID
@@ -88,6 +111,10 @@ class ProfileData {
         }
         if ($user->user_login_email != $entry['email_old']) {
             throw new ForbiddenException('旧登录邮箱验证失败，请重新输入');
+        }
+        $emailCheck = UserModel::where(array('user_login_email' => $entry['email_new'],))->findOrEmpty();
+        if (!$emailCheck->isEmpty()) {
+            throw new ForbiddenException('该邮箱已被其他账号绑定，请更换其他邮箱');
         }
         $user->user_login_email = $entry['email_new'];
         $user->user_email_hash = generateEmailHash();
