@@ -84,7 +84,7 @@ CREATE TABLE mai_cabinet (
     cab_enable_player_count TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
     cab_max_capacity INT UNSIGNED NOT NULL DEFAULT 0,
     cab_player_count INT UNSIGNED NOT NULL DEFAULT 0,
-    cab_player_count_update_time DATETIME NOT NULL,
+    cab_player_count_update_time DATETIME DEFAULT NULL,
     cab_create_time DATETIME NOT NULL,
     cab_update_time DATETIME NOT NULL,
     cab_delete_time INT DEFAULT NULL,
